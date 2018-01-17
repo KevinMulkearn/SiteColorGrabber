@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="#CCFFCC">
 
-
     <EditText
         android:id="@+id/searchBarInput"
         android:layout_width="wrap_content"
@@ -26,6 +25,5 @@
         android:layout_alignParentTop="true"
         android:backgroundTint="#61A661"
         android:text="@string/buttonText" />
-
 
 </RelativeLayout>
