@@ -47,6 +47,7 @@ public class SearchSectionFragment extends Fragment{
         return view;
     }
 
+    
     public void buttonClicked(View view){
         activityCommander.createMeme(searchBarInput.getText().toString());
     }
