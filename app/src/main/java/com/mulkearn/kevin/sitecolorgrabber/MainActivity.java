@@ -1,13 +1,18 @@
 package com.mulkearn.kevin.sitecolorgrabber;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.os.StrictMode;
-import android.widget.Toast;
-
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.content.Context;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,43 +25,94 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.os.Handler;
+import android.os.Message;
 
-public class MainActivity extends AppCompatActivity implements SearchSectionFragment.SearchSectionListener {
+public class MainActivity extends AppCompatActivity {
+
+    EditText addressBar;
+    Button searchButton;
+    ListView colorList;
+    ListAdapter colorAdapter;
+    TextView addressName;
+
+    String[] defaultColor  = {"#FFFFFF","#000000"};
+    String[] colorArray; //Default Colours
+    String siteAddress;
+    String message;
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            addressName.setText(siteAddress);
+            colorAdapter = new CustomAdapter(MainActivity.this, colorArray); //use my custom adapter
+            colorList.setAdapter(colorAdapter);
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        addressBar = (EditText) findViewById(R.id.addressBar);
+        searchButton = (Button) findViewById(R.id.searchButton);
+        colorList = (ListView) findViewById(R.id.listView);
+        addressName = (TextView) findViewById(R.id.addressName);
+
+        //On Keyboard Enter Click
+        addressBar.setOnKeyListener(
+                new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            switch (keyCode) {
+                                case KeyEvent.KEYCODE_DPAD_CENTER:
+                                case KeyEvent.KEYCODE_ENTER:
+                                    onSearch(v);
+                                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                                    return true;
+                                default:
+                                    break;
+                            }
+                        }
+                        return false;
+                    }
+                }
+        );
     }
 
-    //called by search bar fragment when button click
-    @Override
-    public void createMeme(String siteAddress) {
+    public void onSearch(View view){
 
-        final ListView colorListView = (ListView) findViewById(R.id.colorListView); //ListView reference
-        String[] defaultColor = {"#FFFFFF","#000000"};
-        String[] colorArray; //Default Colours
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
 
-        ColorListFragment colorListFragment = (ColorListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
-        colorListFragment.setSiteText(siteAddress);
+                siteAddress = addressBar.getText().toString();
 
-        String message;
-        if (pingUrl(siteAddress) == true){
-            String colors = getWebsite(siteAddress);
-            colorArray = colors.split(", ");
-            message = "Searching";
-        } else {
-            colorArray = defaultColor;
-            message = "Invalid URL";
-        }
+                if (pingUrl(siteAddress)){
+                    String colors = getWebsite(siteAddress);
+                    colorArray = colors.split(", ");
+                    message = "Found";
+                } else {
+                    colorArray = defaultColor;
+                    message = "Invalid URL";
+                }
+                handler.sendEmptyMessage(0);
+            }
+        };
 
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-        ListAdapter colorAdapter = new CustomAdapter(this, colorArray); //Use adapter I created
-        colorListView.setAdapter(colorAdapter);
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
+
+        Thread myThread = new Thread(r);
+        myThread.start();
     }
 
 
@@ -109,41 +165,13 @@ public class MainActivity extends AppCompatActivity implements SearchSectionFrag
         allColors.clear(); //clear array
         allColors.addAll(hs); //add all elements of hash set back to array
 
-        //Collections.sort(allColors); //sort array
-
-        Collections.sort(allColors, new Comparator<String>() {
-            @Override
-            public int compare(String c1, String c2) {
-                int intColl = Color.parseColor(c1);
-                int intCol2 = Color.parseColor(c2);
-                if (Color.red(intColl) < Color.red(intCol2)) {
-                    return -1;
-                }
-                if (Color.red(intColl) > Color.red(intCol2)) {
-                    return 1;
-                }
-                if (Color.green(intColl) < Color.green(intCol2)) {
-                    return -1;
-                }
-                if (Color.green(intColl) > Color.green(intCol2)) {
-                    return 1;
-                }
-                if (Color.blue(intColl) < Color.blue(intCol2)) {
-                    return -1;
-                }
-                if (Color.blue(intColl) > Color.blue(intCol2)) {
-                    return 1;
-                }
-                return 0;
-            }
-        });
+        Collections.sort(allColors); //sort array
 
         sorted = allColors.toString();
         sorted = sorted.substring(1,sorted.length()-1);
 
         return sorted;
     }
-
 
     public static boolean pingUrl(String testUrl) {
         try{
@@ -159,5 +187,4 @@ public class MainActivity extends AppCompatActivity implements SearchSectionFrag
             return false;
         }
     }
-
 }

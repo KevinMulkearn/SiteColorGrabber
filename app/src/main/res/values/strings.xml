@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Website Color Grabber</string>
-    <string name="buttonText">Go</string>
-    <string name="topText">Please Enter Website</string>
-    <string name="httpsString">https://</string>
+    <string name="go_button">Go</string>
+    <string name="cr_textview">TextView</string>
+    <string name="https">https://</string>
 </resources>

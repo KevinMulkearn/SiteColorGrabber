@@ -6,26 +6,51 @@
     android:layout_height="match_parent"
     tools:context="com.mulkearn.kevin.sitecolorgrabber.MainActivity">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.mulkearn.kevin.sitecolorgrabber.SearchSectionFragment"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/addressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/searchButton"
+        android:ems="10"
+        android:inputType="text|textWebEmailAddress"
+        android:text="@string/https"
+         />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/go_button"
+        android:onClick="onSearch"
+         />
 
-        tools:layout="@layout/search_bar_fragment"
-        />
+    <TextView
+        android:id="@+id/addressName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressBar"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:textColor="#000000" />
 
-    <fragment
-        android:id="@+id/fragment2"
-        android:name="com.mulkearn.kevin.sitecolorgrabber.ColorListFragment"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:layout_below="@+id/fragment"
-        tools:layout="@layout/color_list_fragment"
-        />
+        android:layout_below="@id/addressName"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
 
 </RelativeLayout>
