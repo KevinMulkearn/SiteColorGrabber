@@ -44,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
     String siteAddress;
     String message;
 
+    Toast t;
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             addressName.setText(siteAddress);
             colorAdapter = new CustomAdapter(MainActivity.this, colorArray); //use my custom adapter
             colorList.setAdapter(colorAdapter);
+            t.cancel();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
@@ -109,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_SHORT).show();
+        t = Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_LONG);
+        t.show();
 
         Thread myThread = new Thread(r);
         myThread.start();
