@@ -1,5 +1,6 @@
 package com.mulkearn.kevin.sitecolorgrabber;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -38,18 +39,19 @@ public class MainActivity extends AppCompatActivity {
     ListView colorList;
     ListAdapter colorAdapter;
     TextView addressName;
+    Toast t;
 
     String[] defaultColor  = {"#FFFFFF","#000000"};
     String[] colorArray; //Default Colours
     String siteAddress;
     String message;
-
-    Toast t;
+    int urlColor;
 
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             addressName.setText(siteAddress);
+            addressName.setTextColor(urlColor);
             colorAdapter = new CustomAdapter(MainActivity.this, colorArray); //use my custom adapter
             colorList.setAdapter(colorAdapter);
             t.cancel();
@@ -99,10 +101,18 @@ public class MainActivity extends AppCompatActivity {
                 siteAddress = addressBar.getText().toString();
 
                 if (pingUrl(siteAddress)){
+                    urlColor = Color.parseColor("#00CC00");
                     String colors = getWebsite(siteAddress);
                     colorArray = colors.split(", ");
-                    message = "Found";
+                    //message = "Found";
+                    if (colorArray.length ==2 ){
+                        message = "No Colors Found";
+                    } else{
+                        message = "Colors Found";
+                    }
+
                 } else {
+                    urlColor = Color.parseColor("#FF0000");
                     colorArray = defaultColor;
                     message = "Invalid URL";
                 }
