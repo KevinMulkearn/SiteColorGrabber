@@ -1,12 +1,18 @@
 package com.mulkearn.kevin.sitecolorgrabber;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.os.StrictMode;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -39,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     ListView colorList;
     ListAdapter colorAdapter;
     TextView addressName;
-    Toast t;
+    Toast t1, t2;
 
     String[] defaultColor  = {"#FFFFFF","#000000"};
     String[] colorArray; //Default Colours
@@ -54,7 +60,24 @@ public class MainActivity extends AppCompatActivity {
             addressName.setTextColor(urlColor);
             colorAdapter = new CustomAdapter(MainActivity.this, colorArray); //use my custom adapter
             colorList.setAdapter(colorAdapter);
-            t.cancel();
+
+            colorList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    if(t2 != null){
+                        t2.cancel();
+                    }
+                    String item = (String) colorList.getItemAtPosition(position);
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Hex Value", item);
+                    clipboard.setPrimaryClip(clip);
+                    t2 = Toast.makeText(MainActivity.this, item + " Copied to Clipboard", Toast.LENGTH_SHORT);
+                    t2.show();
+                }
+            });
+
+            t1.cancel();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
@@ -92,6 +115,24 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                //Intent i = new Intent(this, AboutActivity.class);
+                //startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     public void onSearch(View view){
 
         Runnable r = new Runnable() {
@@ -122,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        t = Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_LONG);
-        t.show();
+        t1 = Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_LONG);
+        t1.show();
 
         Thread myThread = new Thread(r);
         myThread.start();
