@@ -38,6 +38,11 @@ import java.util.Set;
 import android.os.Handler;
 import android.os.Message;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText addressBar;
@@ -140,10 +145,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 siteAddress = addressBar.getText().toString();
+                String formattedUrl = formatAddress(siteAddress); //replaced siteAddress
 
-                if (pingUrl(siteAddress)){
+                if (pingUrl(formattedUrl)){
                     urlColor = Color.parseColor("#00CC00");
-                    String colors = getWebsite(siteAddress);
+                    String colors = getWebsite(formattedUrl);
                     colorArray = colors.split(", ");
                     //message = "Found";
                     if (colorArray.length ==2 ){
@@ -241,5 +247,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String formatAddress(String inputUrl) {
+        String fullUrl = "";
+        if (pingUrl(inputUrl)){
+            fullUrl = inputUrl;
+        } else if (pingUrl("https://" + inputUrl)){
+            fullUrl = "https://" + inputUrl;
+        } else if (pingUrl("http://" + inputUrl)){
+            fullUrl = "http://" + inputUrl;
+        }
+        return fullUrl;
     }
 }

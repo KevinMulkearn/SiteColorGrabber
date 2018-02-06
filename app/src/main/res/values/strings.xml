@@ -2,5 +2,5 @@
     <string name="app_name">Website Color Grabber</string>
     <string name="go_button">Go</string>
     <string name="cr_textview">TextView</string>
-    <string name="https">https://</string>
+    <string name="https">www.</string>
 </resources>
