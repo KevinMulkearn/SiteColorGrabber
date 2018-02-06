@@ -3,4 +3,24 @@
     <string name="go_button">Go</string>
     <string name="cr_textview">TextView</string>
     <string name="https">www.</string>
+    <string name="about_text">
+        About:\n
+        This simple app will return all color information\n
+        available in the source code of any desired website.\n
+        Please note this will not return all colors\n
+        found on a webpage, only the publicly available\n
+        colors from the page source.\n
+        This app works by pulling the source code into a\n
+        bufferReader, the buffer is searched for any\n
+        instances of a hexadecimal value matching that \n
+        of a color value. A list of unique colors is returned.\n\n
+        How to Use:\n
+        Enter your desired URL. Press the search button when\n
+        ready. When the list of colors is returned, simple tap\n
+        on any color to copy the hexadecimal value to your\n
+        clipboard. (Note: Please make sure you have a stable\n
+        internet connection. If an /"Invalid URL/" message is\n
+        displayed, please make sure you have entered the correct\n
+        protocol, domain and resource.
+    </string>
 </resources>

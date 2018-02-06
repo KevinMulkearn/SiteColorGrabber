@@ -2,6 +2,7 @@ package com.mulkearn.kevin.sitecolorgrabber;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,11 +38,6 @@ import java.util.Set;
 
 import android.os.Handler;
 import android.os.Message;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -129,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about:
-                //Intent i = new Intent(this, AboutActivity.class);
-                //startActivity(i);
+                Intent i = new Intent(this, AboutActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
