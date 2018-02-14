@@ -2,8 +2,7 @@ package com.mulkearn.kevin.sitecolorgrabber;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.content.Intent;
-import android.view.View;
+import android.util.DisplayMetrics;
 
 public class AboutActivity extends AppCompatActivity{
 
@@ -11,12 +10,12 @@ public class AboutActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-    }
 
-    public void onReturnClick(View view){
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        getWindow().setLayout((int)(width * 0.8), (int)(height * 0.6));
     }
-
 
 }
