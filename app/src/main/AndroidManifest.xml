@@ -23,6 +23,9 @@
             android:name=".AboutActivity"
             android:theme="@style/AboutStyle">
         </activity>
+        <activity
+            android:name=".SavedColorActivity">
+        </activity>
     </application>
 
 </manifest>
