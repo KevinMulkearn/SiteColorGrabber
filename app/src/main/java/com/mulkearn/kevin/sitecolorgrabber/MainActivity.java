@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     ListAdapter colorAdapter;
     TextView addressName;
     Toast t1, t2;
+    DBHandler dbHandler;
 
     String[] defaultColor  = {"#FFFFFF","#000000"};
     String[] colorArray; //Default Colours
@@ -62,22 +63,6 @@ public class MainActivity extends AppCompatActivity {
             colorAdapter = new CustomAdapter(MainActivity.this, colorArray); //use my custom adapter
             colorList.setAdapter(colorAdapter);
 
-            colorList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    if(t2 != null){
-                        t2.cancel();
-                    }
-                    String item = (String) colorList.getItemAtPosition(position);
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Hex Value", item);
-                    clipboard.setPrimaryClip(clip);
-                    t2 = Toast.makeText(MainActivity.this, item + " Copied to Clipboard", Toast.LENGTH_SHORT);
-                    t2.show();
-                }
-            });
-
             t1.cancel();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
@@ -92,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         searchButton = (Button) findViewById(R.id.searchButton);
         colorList = (ListView) findViewById(R.id.listView);
         addressName = (TextView) findViewById(R.id.addressName);
+
+        dbHandler = new DBHandler(this, null, null, 1);//check constructor for more info
 
         //On Keyboard Enter Click
         addressBar.setOnKeyListener(
@@ -114,6 +101,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
+        colorList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(t2 != null){
+                    t2.cancel();
+                }
+                String item = (String) colorList.getItemAtPosition(position);
+                Colors color = new Colors(item);
+                dbHandler.addColor(color);
+
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Hex Value", item);
+                clipboard.setPrimaryClip(clip);
+                t2 = Toast.makeText(MainActivity.this, item + " Copied to Clipboard", Toast.LENGTH_SHORT);
+                t2.show();
+            }
+        });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,14 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.saved:
+                Intent i_saved = new Intent(this, SavedColorActivity.class);
+                startActivity(i_saved);
+                return true;
             case R.id.about:
-                Intent i = new Intent(this, AboutActivity.class);
-                startActivity(i);
+                Intent i_about = new Intent(this, AboutActivity.class);
+                startActivity(i_about);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     public void onSearch(View view){
@@ -147,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     urlColor = Color.parseColor("#00CC00");
                     String colors = getWebsite(formattedUrl);
                     colorArray = colors.split(", ");
-                    //message = "Found";
-                    if (colorArray.length ==2 ){
+                    if (colorArray.length == 2){
                         message = "No Colors Found";
                     } else{
                         message = "Colors Found";
@@ -225,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(allColors); //sort array
 
         sorted = allColors.toString();
-        sorted = sorted.substring(1,sorted.length()-1);
+        sorted = sorted.substring(1,sorted.length()-1); //Remove [] brackets
 
         return sorted;
     }
