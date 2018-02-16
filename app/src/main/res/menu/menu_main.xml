@@ -5,6 +5,9 @@
         android:id="@+id/saved"
         android:title="Saved Colors" />
     <item
+        android:id="@+id/saveClipBoard"
+        android:title="Add to Saved" />
+    <item
         android:id="@+id/about"
         android:title="About" />
 

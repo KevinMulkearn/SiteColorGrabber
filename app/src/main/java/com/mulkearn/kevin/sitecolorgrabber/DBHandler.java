@@ -18,12 +18,11 @@ public class DBHandler extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Is called the very first time the app runs (i.e. create new table)
         String query = "CREATE TABLE " + TABLE_COLORS + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COLUMN_COLORNAME + " TEXT " +
                 ");";
         db.execSQL(query);//execute SQL query
@@ -40,10 +39,13 @@ public class DBHandler extends SQLiteOpenHelper{
     public void addColor(Colors color){
         SQLiteDatabase db = getWritableDatabase(); //Get DB connection
         ContentValues values = new ContentValues();
-
         values.put(COLUMN_COLORNAME, color.get_colorname());
 
         db.insert(TABLE_COLORS, null, values); //Inserts new row in table
+        db.execSQL("DELETE FROM " + TABLE_COLORS + " WHERE " + COLUMN_ID + " NOT IN " +
+                "(SELECT " + COLUMN_ID + " FROM " + TABLE_COLORS + " ORDER BY " +
+                COLUMN_ID + " DESC LIMIT 40);"); //Limit number of color to 40
+
         db.close();
     }
 
@@ -63,23 +65,16 @@ public class DBHandler extends SQLiteOpenHelper{
     public String databaseToString(){
         String dbString = "";
         SQLiteDatabase db = getWritableDatabase(); //Get DB connection
-        String query = "SELECT * FROM " + TABLE_COLORS;// + " WHERE 1";
+        //String query = "SELECT * FROM " + TABLE_COLORS;// + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_COLORS + " ORDER BY " + COLUMN_ID + " DESC";// Most recent at the top
 
         Cursor c = db.rawQuery(query, null); //Cursor point to a location in your results
         c.moveToFirst(); //Move to first row of results
 
         //Loop through database and add to string
-//        while(!c.isAfterLast()){//Not after the last row
-//            if(c.getString(c.getColumnIndex("_colorname")) != null){
-//                dbString += c.getString(c.getColumnIndex("_colorname"));
-//                dbString += "\n";
-//            }
-//            c.moveToNext();
-//        }
-        while(!c.isAfterLast()){//Not after the last row
-
+        while(!c.isAfterLast()){
             dbString += c.getString(c.getColumnIndex("_colorname"));
-            dbString += "\n";
+            dbString += ",";
             c.moveToNext();
         }
         c.close();
