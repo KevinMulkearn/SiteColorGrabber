@@ -106,12 +106,10 @@ public class MainActivity extends AppCompatActivity {
         colorList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 if(t2 != null){
                     t2.cancel();
                 }
                 String item = (String) colorList.getItemAtPosition(position);
-
                 Colors color = new Colors(item);
                 dbHandler.addColor(color);
 
@@ -122,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
                 t2.show();
             }
         });
-
-
 
     }
 
@@ -139,9 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent i_saved = new Intent(this, SavedColorActivity.class);
                 startActivity(i_saved);
                 return true;
-            case R.id.saveClipBoard:
-                //Remove if not used
-                return true;
             case R.id.about:
                 Intent i_about = new Intent(this, AboutActivity.class);
                 startActivity(i_about);
@@ -149,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     public void onSearch(View view){

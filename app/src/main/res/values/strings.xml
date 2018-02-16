@@ -18,8 +18,13 @@
         Enter your desired URL. Press the search button when
         ready. When the list of colors is returned, simple tap
         on any color to copy the hexadecimal value to your
-        clipboard. (Note: Please make sure you have a stable
-        internet connection. If an /"Invalid URL/" message is
+        clipboard. The color will also be saved in your
+        Saved Colors menu.\n
+        To resave the hexadecimal value to your clipboard,
+        again tap the desired color. If you wish to delete
+        a color from your Saved Colors menu, press and hold.\n\n
+        (Note: Please make sure you have a stable
+        internet connection. If an Invalid URL message is
         displayed, please make sure you have entered the correct
         protocol, domain and resource.
     </string>

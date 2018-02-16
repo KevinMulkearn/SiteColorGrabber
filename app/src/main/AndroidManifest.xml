@@ -24,7 +24,8 @@
             android:theme="@style/AboutStyle">
         </activity>
         <activity
-            android:name=".SavedColorActivity">
+            android:name=".SavedColorActivity"
+            android:label="Saved Colors">
         </activity>
     </application>
 

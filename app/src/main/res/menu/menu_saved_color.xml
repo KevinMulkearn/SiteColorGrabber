@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/saved"
-        android:title="Saved Colors" />
+        android:id="@+id/search"
+        android:title="Search Site" />
+    <item
+        android:id="@+id/clear"
+        android:title="Clear All" />
     <item
         android:id="@+id/about"
         android:title="About" />
