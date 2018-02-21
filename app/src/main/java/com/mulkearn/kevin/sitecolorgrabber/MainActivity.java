@@ -1,7 +1,5 @@
 package com.mulkearn.kevin.sitecolorgrabber;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -112,11 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 String item = (String) colorList.getItemAtPosition(position);
                 Colors color = new Colors(item);
                 dbHandler.addColor(color);
-
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Hex Value", item);
-                clipboard.setPrimaryClip(clip);
-                t2 = Toast.makeText(MainActivity.this, item + " Copied to Clipboard", Toast.LENGTH_SHORT);
+                t2 = Toast.makeText(MainActivity.this, item + " Saved", Toast.LENGTH_SHORT);
                 t2.show();
             }
         });
@@ -139,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     i_pageView.putExtra("url", address);
                     startActivity(i_pageView);
                 } else {
-                    Toast.makeText(MainActivity.this, "Enter Valid Address First", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Enter Valid URL", Toast.LENGTH_LONG).show();
                 }
                 return true;
             case R.id.saved:

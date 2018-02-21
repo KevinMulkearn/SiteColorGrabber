@@ -5,24 +5,24 @@
     <string name="https">www.</string>
     <string name="about_text">
         About:\n
-        This simple app will return all color information
-        available in the source code of any desired website.
-        Please note this will not return all colors
-        found on a webpage, only the publicly available
-        colors from the page source.\n
-        This app works by pulling the source code into a
-        bufferReader, the buffer is searched for any
-        instances of a hexadecimal value matching that
-        of a color value. A list of unique colors is then returned.\n\n
+        This app will quickly return any colors available
+        in the source code of any website. If you require a
+        more specific color lookup, you can use the web page
+        view option to select any color seen on the sites UI.\n\n
         How to Use:\n
-        Enter your desired URL. Press the search button when
-        ready. When the list of colors is returned, simple tap
-        on any color to copy the hexadecimal value to your
-        clipboard. The color will also be saved in your
-        Saved Colors menu.\n
-        To resave the hexadecimal value to your clipboard,
-        again tap the desired color. If you wish to delete
-        a color from your Saved Colors menu, press and hold.\n\n
+        1. Enter your desired URL. Press the search button to confirm.
+        When the list of colors is returned, simple tap
+        on any color to save it in your app.\n
+        2. If the color you are looking for is not here, select the
+        Page Viewer option for the options menu. Wait for the page
+        to fully load. Once the page has fully loaded, simply
+        tap anywhere on the web page to choose your color.
+        If you are happy with the color, tap on the color display
+        box in the bottom left corner to save it.\n
+        3. To view all your saved colors, select the Saved Colors,
+        option from the options menu. To save the hexadecimal value
+        to your clipboard, tap on the desired color. If you wish
+        to delete a color from your Saved Colors menu, press and hold.\n\n
         (Note: Please make sure you have a stable
         internet connection. If an Invalid URL message is
         displayed, please make sure you have entered the correct

@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="Source Code Checker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,7 @@
         </activity>
         <activity
             android:name=".WebPageActivity"
-            android:label="Page Viewer"
+            android:label="Web Page Viewer"
             android:screenOrientation="portrait">
         </activity>
     </application>

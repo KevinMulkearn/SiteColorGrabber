@@ -8,6 +8,9 @@
         android:id="@+id/saved"
         android:title="Saved Colors" />
     <item
+        android:id="@+id/reload"
+        android:title="Reload Page" />
+    <item
         android:id="@+id/about"
         android:title="About" />
 

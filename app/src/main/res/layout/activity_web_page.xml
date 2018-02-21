@@ -29,21 +29,6 @@
 
     </ScrollView>
 
-
-    <!--
-    <WebView
-        android:id="@+id/websiteView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/hexText"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"/>
--->
-
-
     <TextView
         android:id="@+id/colorDisplay"
         android:layout_width="70dp"
@@ -54,7 +39,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:background="#000000"/>
+        android:background="#000000"
+        android:onClick="saveColorClick"/>
 
     <TextView
         android:id="@+id/hexText"
