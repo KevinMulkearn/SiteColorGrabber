@@ -27,6 +27,11 @@
             android:name=".SavedColorActivity"
             android:label="Saved Colors">
         </activity>
+        <activity
+            android:name=".WebPageActivity"
+            android:label="Page Viewer"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

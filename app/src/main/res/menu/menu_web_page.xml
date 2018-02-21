@@ -5,11 +5,8 @@
         android:id="@+id/search"
         android:title="Search Site" />
     <item
-        android:id="@+id/pageView"
-        android:title="Page Viewer" />
-    <item
-        android:id="@+id/clear"
-        android:title="Clear All" />
+        android:id="@+id/saved"
+        android:title="Saved Colors" />
     <item
         android:id="@+id/about"
         android:title="About" />

@@ -83,6 +83,10 @@ public class SavedColorActivity extends AppCompatActivity{
                 Intent i_search = new Intent(this, MainActivity.class);
                 startActivity(i_search);
                 return true;
+            case R.id.pageView:
+                Intent i_pageView = new Intent(this, WebPageActivity.class);
+                startActivity(i_pageView);
+                return true;
             case R.id.clear:
                 AlertDialog diaBox = AskOption();
                 diaBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(180,255,255,255)));

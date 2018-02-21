@@ -131,6 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.pageView:
+                siteAddress = addressBar.getText().toString();
+                String address = formatAddress(siteAddress); //replaced siteAddress
+                if(pingUrl(address)){
+                    Intent i_pageView = new Intent(this, WebPageActivity.class);
+                    i_pageView.putExtra("url", address);
+                    startActivity(i_pageView);
+                } else {
+                    Toast.makeText(MainActivity.this, "Enter Valid Address First", Toast.LENGTH_LONG).show();
+                }
+                return true;
             case R.id.saved:
                 Intent i_saved = new Intent(this, SavedColorActivity.class);
                 startActivity(i_saved);
