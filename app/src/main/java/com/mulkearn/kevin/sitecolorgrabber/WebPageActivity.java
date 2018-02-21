@@ -93,6 +93,7 @@ public class WebPageActivity extends AppCompatActivity {
                     t1.cancel();
                 }
                 Toast.makeText(WebPageActivity.this, "Finished Loading", Toast.LENGTH_SHORT).show();
+                websiteView.setVisibility(View.VISIBLE);
                 getColor();
             }
         });
@@ -201,5 +202,9 @@ public class WebPageActivity extends AppCompatActivity {
         Colors color = new Colors(item);
         dbHandler.addColor(color);
         Toast.makeText(WebPageActivity.this, item + " Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void bufferClick(View view) {
+        //Do nothing
     }
 }
