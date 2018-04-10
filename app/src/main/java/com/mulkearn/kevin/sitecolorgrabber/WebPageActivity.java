@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -152,22 +153,16 @@ public class WebPageActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                Intent i_search = new Intent(this, MainActivity.class);
-                startActivity(i_search);
-                return true;
-            case R.id.saved:
-                Intent i_saved = new Intent(this, SavedColorActivity.class);
-                startActivity(i_saved);
+            case android.R.id.home:
+                Intent i_search = new Intent(this, SavedColorActivity.class);
+                NavUtils.navigateUpTo(this, i_search);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
             case R.id.reload:
                 Intent i_reload = new Intent(this, WebPageActivity.class);
                 i_reload.putExtra("url", address);
                 startActivity(i_reload);
-                return true;
-            case R.id.about:
-                Intent i_about = new Intent(this, AboutActivity.class);
-                startActivity(i_about);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/reload"
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:title="Reload Page"
+        android:id="@+id/pageView"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Page Viewer"
         app:showAsAction="always" />
 
 </menu>

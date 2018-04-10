@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -79,18 +80,14 @@ public class SavedColorActivity extends AppCompatActivity{
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                Intent i_search = new Intent(this, MainActivity.class);
-                startActivity(i_search);
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
             case R.id.clear:
                 AlertDialog diaBox = AskOption();
                 diaBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(180,255,255,255)));
                 diaBox.show();
-                return true;
-            case R.id.about:
-                Intent i_about = new Intent(this, AboutActivity.class);
-                startActivity(i_about);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
