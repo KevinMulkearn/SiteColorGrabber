@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
     Toast t1, t2;
     DBHandler dbHandler;
 
-    String[] defaultColor  = {"#FFFFFF","#000000"};
+    String[] defaultColor  = {"#FFFFFF"};
     String[] colorArray; //Default Colours
     String siteAddress;
     String message;
@@ -169,7 +169,7 @@ public class SearchActivity extends AppCompatActivity {
                     urlColor = Color.parseColor("#00CC00");
                     String colors = getWebsite(formattedUrl);
                     colorArray = colors.split(", ");
-                    if (colorArray.length == 2){
+                    if (colorArray.length == 1){
                         message = "No Colors Found";
                     } else{
                         message = "Colors Found";
@@ -201,7 +201,6 @@ public class SearchActivity extends AppCompatActivity {
         HttpGet httpget = new HttpGet(website);
 
         ArrayList<String> allColors = new ArrayList<>();
-        allColors.add("#000000");
         allColors.add("#FFFFFF");
         int index;
         int lineLength;

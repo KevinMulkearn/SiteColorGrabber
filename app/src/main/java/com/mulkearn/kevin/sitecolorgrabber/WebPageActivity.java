@@ -1,5 +1,6 @@
 package com.mulkearn.kevin.sitecolorgrabber;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -96,6 +97,7 @@ public class WebPageActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void getColor(){
         findViewById(R.id.loadingCircle).setVisibility(View.GONE);
         websiteView.setOnTouchListener(new View.OnTouchListener() {
@@ -158,6 +160,13 @@ public class WebPageActivity extends AppCompatActivity {
                 NavUtils.navigateUpTo(this, i_search);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
+            case R.id.save:
+                String saveColor = hexText.getText().toString();
+                saveColor = saveColor.substring(saveColor.indexOf("#"),saveColor.length());
+                Colors color = new Colors(saveColor);
+                dbHandler.addColor(color);
+                Toast.makeText(WebPageActivity.this, saveColor + " Saved", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.reload:
                 Intent i_reload = new Intent(this, WebPageActivity.class);
                 i_reload.putExtra("url", address);
@@ -184,17 +193,5 @@ public class WebPageActivity extends AppCompatActivity {
         String val = Integer.toString((int) v) + "%";
 
         return "hsv(" + hue + ", " + sat + ", " + val + ")";
-    }
-
-    public void saveColorClick(View view) {
-        String item = hexText.getText().toString();
-        item = item.substring(item.indexOf("#"),item.length());
-        Colors color = new Colors(item);
-        dbHandler.addColor(color);
-        Toast.makeText(WebPageActivity.this, item + " Saved", Toast.LENGTH_SHORT).show();
-    }
-
-    public void bufferClick(View view) {
-        //Do nothing
     }
 }

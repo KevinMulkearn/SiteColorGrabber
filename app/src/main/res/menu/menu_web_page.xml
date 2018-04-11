@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Save Color"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/reload"
         android:icon="@android:drawable/ic_menu_rotate"
         android:title="Reload Page"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>
