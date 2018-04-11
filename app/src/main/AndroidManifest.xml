@@ -52,6 +52,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SearchActivity"/>
         </activity>
+        <activity
+            android:name=".TestActivity"
+            android:label="Test"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

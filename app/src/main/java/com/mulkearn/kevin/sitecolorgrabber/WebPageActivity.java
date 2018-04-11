@@ -3,13 +3,10 @@ package com.mulkearn.kevin.sitecolorgrabber;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,53 +14,64 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.RelativeLayout;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class WebPageActivity extends AppCompatActivity {
 
-    RelativeLayout mainView;
+    ToggleButton toggleScrollView;
+    ScrollView pageScrollView;
     WebView websiteView;
+    ImageView imageView;
     TextView hexText, rgbText, hsvText, colorDisplay;
-    DBHandler dbHandler;
-
-    int pixel, height, width;
-    String address;
-    Bitmap bm;
     Toast t1;
 
+    DBHandler dbHandler;
+
+    String address;
+    Bitmap bitmap;
+    boolean loaded = false;
+
+    @SuppressLint({"SetJavaScriptEnabled", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_page);
+        setContentView(R.layout.activity_test);
 
+        pageScrollView = (ScrollView) findViewById(R.id.pageScrollView);
         websiteView = (WebView) findViewById(R.id.websiteView);
-        mainView = (RelativeLayout) findViewById(R.id.mainView);
+        imageView = (ImageView) findViewById(R.id.imageView);
         hexText = (TextView) findViewById(R.id.hexText);
         rgbText = (TextView) findViewById(R.id.rgbText);
         hsvText = (TextView) findViewById(R.id.hsvText);
         colorDisplay = (TextView) findViewById(R.id.colorDisplay);
+        toggleScrollView = (ToggleButton) findViewById(R.id.toggleScrollView);
+
+        //Hide toggle button text
+        toggleScrollView.setText(null);
+        toggleScrollView.setTextOn(null);
+        toggleScrollView.setTextOff(null);
+        toggleScrollView.setVisibility(View.INVISIBLE);
 
         dbHandler = new DBHandler(this, null, null, 1);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        height = displayMetrics.heightPixels;
-        width = displayMetrics.widthPixels;
-
-        address = getIntent().getStringExtra("url");
-        websiteView.getSettings().setJavaScriptEnabled(true);
-        websiteView.loadUrl(address);
 
         t1 = Toast.makeText(WebPageActivity.this, "Loading...", Toast.LENGTH_LONG);
         t1.show();
 
+        address = getIntent().getStringExtra("url");;
+        websiteView.getSettings().setJavaScriptEnabled(true);
+        websiteView.loadUrl(address);
 
         websiteView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon){
-                //Do something
+                pageScrollView.setVisibility(View.INVISIBLE);
+                websiteView.setVisibility(View.INVISIBLE);
+                imageView.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -74,74 +82,71 @@ public class WebPageActivity extends AppCompatActivity {
                 websiteView.layout(0, 0, websiteView.getMeasuredWidth(),
                         websiteView.getMeasuredHeight());
 
-                websiteView.setDrawingCacheEnabled(true);
-                websiteView.buildDrawingCache();
+                pageScrollView.setVisibility(View.VISIBLE);
+                websiteView.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.INVISIBLE);
 
-                bm = Bitmap.createBitmap(websiteView.getMeasuredWidth(),
-                        websiteView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-
-                Canvas bigcanvas = new Canvas(bm);
-                Paint paint = new Paint();
-                int iHeight = bm.getHeight();
-                bigcanvas.drawBitmap(bm, 0, iHeight, paint);
-                websiteView.draw(bigcanvas);
-
+                findViewById(R.id.loadingCircle).setVisibility(View.GONE);
                 if (t1 != null){
                     t1.cancel();
                 }
                 Toast.makeText(WebPageActivity.this, "Finished Loading", Toast.LENGTH_SHORT).show();
-                websiteView.setVisibility(View.VISIBLE);
-                getColor();
+                loaded = true;
+                invalidateOptionsMenu();//Recall menu create function
+                toggleScrollView.setVisibility(View.VISIBLE);
             }
         });
 
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void getColor(){
-        findViewById(R.id.loadingCircle).setVisibility(View.GONE);
         websiteView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                return true; //True if the listener has consumed the event, false otherwise.
+            }
+        });
 
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    int[] viewCoords = new int[2];
-                    websiteView.getLocationOnScreen(viewCoords);
+        toggleScrollView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    pageScrollView.setDrawingCacheEnabled(true);
+                    pageScrollView.buildDrawingCache();
+                    bitmap = pageScrollView.getDrawingCache();
+                    imageView.setImageBitmap(bitmap);
 
-                    int touchX = (int) event.getRawX();
-                    if (touchX < 0) {
-                        touchX = 0;
-                    } else if (touchX >= width) {
-                        touchX = width - 1;
-                    }
+                    imageView.setVisibility(View.VISIBLE);
+                    pageScrollView.setVisibility(View.INVISIBLE);
+                    websiteView.setVisibility(View.INVISIBLE);
+                } else {
+                    pageScrollView.setDrawingCacheEnabled(false);
+                    bitmap = null;
 
-                    int touchY = (int) event.getRawY();
-                    if (touchY < 0) {
-                        touchY = 0;
-                    } else if (touchY >= height) {
-                        touchY = height - 1;
-                    }
-
-                    int imageX = touchX - viewCoords[0];
-                    if (imageX >= bm.getWidth()){
-                        imageX = bm.getWidth() - 1;
-                    }
-                    int imageY = touchY - viewCoords[1];
-                    if (imageY >= bm.getHeight()){
-                        imageY = bm.getHeight() - 1;
-                    }
-
-                    pixel = bm.getPixel(imageX, imageY);
-                    int redValue = Color.red(pixel);
-                    int blueValue = Color.blue(pixel);
-                    int greenValue = Color.green(pixel);
-
-                    hexText.setText("Hex: " + rgbToHex(redValue, greenValue, blueValue));
-                    rgbText.setText("rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")");
-                    hsvText.setText(getHSVValue(redValue, greenValue, blueValue));
-                    colorDisplay.setBackgroundColor(pixel);
+                    pageScrollView.setVisibility(View.VISIBLE);
+                    websiteView.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.INVISIBLE);
                 }
-                return true;
+            }
+        });
+
+
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float x = event.getX();
+                float y = event.getY();
+                int pixel = 12247244;
+                if(bitmap != null){
+                    pixel = bitmap.getPixel((int) x, (int) y);
+                }
+
+                int redValue = Color.red(pixel);
+                int blueValue = Color.blue(pixel);
+                int greenValue = Color.green(pixel);
+
+                hexText.setText("Hex: " + rgbToHex(redValue, greenValue, blueValue));
+                rgbText.setText("rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")");
+                hsvText.setText(getHSVValue(redValue, greenValue, blueValue));
+                colorDisplay.setBackgroundColor(pixel);
+
+                return false;
             }
         });
 
@@ -150,6 +155,13 @@ public class WebPageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_web_page, menu);
+        if (loaded == false){
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+        } else {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(true);
+        }
         return true;
     }
 
