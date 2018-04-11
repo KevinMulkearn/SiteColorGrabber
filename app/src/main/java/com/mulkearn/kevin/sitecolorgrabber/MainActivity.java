@@ -31,9 +31,4 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
-    public void startTestActivity(View view) {
-        Intent i_test = new Intent(this, TestActivity.class);
-        startActivity(i_test);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
 }

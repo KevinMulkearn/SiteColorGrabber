@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
         String address = formatAddress(siteAddress);
-        if (pingUrl(address) == false){
+        if (!pingUrl(address)){
             menu.getItem(0).setVisible(false);
         } else {
             menu.getItem(0).setVisible(true);

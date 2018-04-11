@@ -40,7 +40,7 @@ public class WebPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_web_page);
 
         pageScrollView = (ScrollView) findViewById(R.id.pageScrollView);
         websiteView = (WebView) findViewById(R.id.websiteView);
