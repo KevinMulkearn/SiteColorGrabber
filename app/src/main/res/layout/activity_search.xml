@@ -56,4 +56,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp" />
 
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
 </RelativeLayout>

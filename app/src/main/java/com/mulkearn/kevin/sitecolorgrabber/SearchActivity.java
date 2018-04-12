@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
@@ -47,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     ListAdapter colorAdapter;
     TextView addressName;
     Toast t1, t2;
+    ProgressBar loadingBar;
     DBHandler dbHandler;
 
     String[] defaultColor  = {"#FFFFFF"};
@@ -64,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
             colorAdapter = new CustomAdapter(SearchActivity.this, colorArray); //use my custom adapter
             colorList.setAdapter(colorAdapter);
 
+            loadingBar.setVisibility(View.INVISIBLE);
             t1.cancel();
             Toast.makeText(SearchActivity.this, message, Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();//Recall menu create function
@@ -79,6 +82,7 @@ public class SearchActivity extends AppCompatActivity {
         searchButton = (Button) findViewById(R.id.searchButton);
         colorList = (ListView) findViewById(R.id.listView);
         addressName = (TextView) findViewById(R.id.addressName);
+        loadingBar = (ProgressBar) findViewById(R.id.loadingBar);
 
         dbHandler = new DBHandler(this, null, null, 1);//check constructor for more info
 
@@ -159,6 +163,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void onSearch(View view){
+
+        loadingBar.setVisibility(View.VISIBLE);
 
         Runnable r = new Runnable() {
             @Override

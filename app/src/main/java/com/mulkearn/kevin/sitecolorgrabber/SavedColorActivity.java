@@ -114,7 +114,7 @@ public class SavedColorActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
                         dbHandler.clearColors();
-                        Colors color = new Colors("#FFFFFFf");
+                        Colors color = new Colors("#FFFFFF");
                         dbHandler.addColor(color); //Add white list can't be empty
                         printDatabase();
                         dialog.dismiss();
