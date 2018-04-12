@@ -82,6 +82,8 @@ public class SearchActivity extends AppCompatActivity {
 
         dbHandler = new DBHandler(this, null, null, 1);//check constructor for more info
 
+        addressBar.setSelection(addressBar.getText().length()); //Set cursor position to end
+
         //On Keyboard Enter Click
         addressBar.setOnKeyListener(
                 new View.OnKeyListener() {

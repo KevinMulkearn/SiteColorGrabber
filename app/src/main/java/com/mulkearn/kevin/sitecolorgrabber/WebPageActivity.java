@@ -141,8 +141,8 @@ public class WebPageActivity extends AppCompatActivity {
                 int blueValue = Color.blue(pixel);
                 int greenValue = Color.green(pixel);
 
-                hexText.setText("Hex: " + rgbToHex(redValue, greenValue, blueValue));
-                rgbText.setText("rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")");
+                hexText.setText("Hex " + rgbToHex(redValue, greenValue, blueValue));
+                rgbText.setText("RGB (" + redValue + ", " + greenValue + ", " + blueValue + ")");
                 hsvText.setText(getHSVValue(redValue, greenValue, blueValue));
                 colorDisplay.setBackgroundColor(pixel);
 
@@ -204,6 +204,6 @@ public class WebPageActivity extends AppCompatActivity {
         String sat = Integer.toString((int) s) + "%";
         String val = Integer.toString((int) v) + "%";
 
-        return "hsv(" + hue + ", " + sat + ", " + val + ")";
+        return "HSV (" + hue + ", " + sat + ", " + val + ")";
     }
 }

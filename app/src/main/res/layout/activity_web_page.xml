@@ -75,14 +75,14 @@
                 android:id="@+id/rgbText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="rgb(0, 0, 0)"
+                android:text="RGB (0, 0, 0)"
                 android:textSize="15sp"
                 android:textColor="#000000" />
             <TextView
                 android:id="@+id/hsvText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hsv(0°, 0%, 0%)"
+                android:text="HSV (0°, 0%, 0%)"
                 android:textSize="15sp"
                 android:textColor="#000000" />
 
